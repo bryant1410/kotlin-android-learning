@@ -4,7 +4,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.uiThread
 
 class MainActivity : AppCompatActivity() {
     private val items = listOf(
@@ -23,5 +25,10 @@ class MainActivity : AppCompatActivity() {
         val forecastList = findViewById(R.id.forecast_list) as RecyclerView
         forecastList.layoutManager = LinearLayoutManager(this)
         forecastList.adapter = ForecastListAdapter(items)
+
+        doAsync {
+            Request("https://google.com").run()
+            uiThread { longToast("Request performed") }
+        }
     }
 }
